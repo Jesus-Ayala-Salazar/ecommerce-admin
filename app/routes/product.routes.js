@@ -8,7 +8,13 @@ module.exports = app => {
   
  
     router.get("/", products.findAll);
-   
+  
+ 
+    router.get("/inStock", products.findAllInStock);
+    
+
+    router.get("/description", products.findAllDescription);
+  
 
     router.get("/:id", products.findOne);
   
