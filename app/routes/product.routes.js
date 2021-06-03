@@ -4,7 +4,7 @@ module.exports = app => {
     var router = require("express").Router();
   
 
-    router.post("/", product.create);
+    router.post("/", products.create);
   
  
     router.get("/", products.findAll);
@@ -16,13 +16,13 @@ module.exports = app => {
     router.get("/description", products.findAllDescription);
   
 
-    router.get("/:id", products.findOne);
+    router.get("/:productId", products.findOne);
   
 
-    router.put("/:id", products.update);
+    router.put("/:productId", products.update);
   
 
-    router.delete("/:id", products.delete);
+    router.delete("/:productId", products.delete);
   
 
     router.delete("/", products.deleteAll);
