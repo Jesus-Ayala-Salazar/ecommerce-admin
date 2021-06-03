@@ -17,7 +17,8 @@ exports.create = (req, res) => {
     description: req.body.description,
     price: req.body.price,
     name: req.body.name,
-    productImage: req.body.productImage
+    productImage: req.body.productImage,
+    inStock: req.body.inStock ? req.body.inStock : false
 
   };
 
@@ -39,7 +40,7 @@ exports.findAll = (req, res) => {
   const name = req.query.name;
   var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Tutorial.findAll({ where: condition })
+  Product.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
@@ -94,7 +95,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const productId = req.params.productId;
 
-  Tutorial.destroy({
+  Product.destroy({
     where: { id: id }
   })
     .then(num => {
@@ -133,4 +134,31 @@ exports.deleteAll = (req, res) => {
 };
 
 
+exports.findAllInStock = (req, res) => {
+  Product.findAll({ where: { inStock: true } })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving products."
+      });
+    });
+};
 
+exports.findAllDescription = (req, res) => {
+  const description = req.query.description;
+  var condition = description ? { description: { [Op.like]: `%${description}%` } } : null;
+
+  Product.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving products."
+      });
+    });
+};
