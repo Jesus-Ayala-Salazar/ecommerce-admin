@@ -14,7 +14,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     productImage: {
       type: Sequelize.BLOB
-    }
+    },
+    inStock: {
+      type: Sequelize.BOOLEAN
+    }    
   });
 
   return Product;
