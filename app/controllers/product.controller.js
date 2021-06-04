@@ -13,7 +13,6 @@ exports.create = (req, res) => {
 
 
   const product = {
-    productId: req.body.productId,
     description: req.body.description,
     price: req.body.price,
     name: req.body.name,
@@ -54,25 +53,25 @@ exports.findAll = (req, res) => {
 
 // Find a single product with productId
 exports.findOne = (req, res) => {
-  const productId = req.params.productId;
+  const id = req.params.id;
 
-  Product.findByPk(productId)
+  Product.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving product with productId=" + productId
+        message: "Error retrieving product with productId=" + id
       });
     });
 };
 
 // Update a product by the productId in the request
 exports.update = (req, res) => {
-  const productId = req.params.productId;
+  const id = req.params.id;
 
   Product.update(req.body, {
-    where: { productId: productId }
+    where: { id: id }
   })
     .then(num => {
       if (num == 1) {
@@ -81,19 +80,19 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot update product with product id=${productId}. Maybe product was not found or req.body is empty!`
+          message: `Cannot update product with product id=${id}. Maybe product was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating product with id=" + productId
+        message: "Error updating product with id=" + id
       });
     });
 };
 
 exports.delete = (req, res) => {
-  const productId = req.params.productId;
+  const id = req.params.id;
 
   Product.destroy({
     where: { id: id }
@@ -105,13 +104,13 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot delete product with id=${productId}. Maybe product was not found!`
+          message: `Cannot delete product with id=${id}. Maybe product was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete product with id=" + productId
+        message: "Could not delete product with id=" + id
       });
     });
 };
