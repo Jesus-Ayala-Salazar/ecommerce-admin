@@ -26,8 +26,6 @@ export default class AddProduct extends Component {
     this.setState({
       name: e.target.value
     });
-    console.log(this.state.name);
-
   }
 
   onChangeDescription(e) {
@@ -38,14 +36,15 @@ export default class AddProduct extends Component {
 
   onChangePrice(e) {
     this.setState({
-      price: e.target.value
+      price: parseFloat(e.target.value)
     });
   }
 
   saveProduct() {
     var data = {
       name: this.state.name,
-      description: this.state.description
+      description: this.state.description,
+      price: this.state.price
     };
 
     ProductDataService.create(data)
