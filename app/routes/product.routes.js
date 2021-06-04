@@ -16,13 +16,13 @@ module.exports = app => {
     router.get("/description", products.findAllDescription);
   
 
-    router.get("/:productId", products.findOne);
+    router.get("/:id", products.findOne);
   
 
-    router.put("/:productId", products.update);
+    router.put("/:id", products.update);
   
 
-    router.delete("/:productId", products.delete);
+    router.delete("/:id", products.delete);
   
 
     router.delete("/", products.deleteAll);
