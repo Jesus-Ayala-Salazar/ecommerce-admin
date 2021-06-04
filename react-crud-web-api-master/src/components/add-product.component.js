@@ -11,12 +11,14 @@ export default class AddProduct extends Component {
     this.newProduct = this.newProduct.bind(this);
 
     this.state = {
-      productId: null,
+      id: null,
       name: "",
       description: "", 
       inStock: false,
 
-      price: 0.00
+      price: 0.00,
+      submitted: false
+
     };
   }
 
@@ -24,6 +26,8 @@ export default class AddProduct extends Component {
     this.setState({
       name: e.target.value
     });
+    console.log(this.state.name);
+
   }
 
   onChangeDescription(e) {
@@ -47,12 +51,13 @@ export default class AddProduct extends Component {
     ProductDataService.create(data)
       .then(response => {
         this.setState({
-          productId: response.data.productId,
+          id: response.data.id,
           name: response.data.name,
           description: response.data.description,
           inStock: true,
 
-          price: response.data.price
+          price: response.data.price,
+          submitted: true
         });
         console.log(response.data);
       })
@@ -68,7 +73,8 @@ export default class AddProduct extends Component {
       description: "",
       inStock: false,
 
-      price: 0.00
+      price: 0.00,
+      submitted: false
     });
   }
 
