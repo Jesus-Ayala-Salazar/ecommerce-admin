@@ -147,10 +147,14 @@ export default class Product extends Component {
               </div>
 
               <div className="form-group">
-                <label>
-                  <strong>Product Status:</strong>
-                </label>
-                {currentProduct.inStock ? " In Stock" :  " Out of Stock"}
+              <label htmlFor="price">Price</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="price"
+                  value={currentProduct.price}
+                  onChange={this.onChangePrice}
+                />
               </div>
 
               <div className="form-group">

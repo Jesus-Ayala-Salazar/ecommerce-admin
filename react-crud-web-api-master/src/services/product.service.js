@@ -32,6 +32,10 @@ class ProductDataService {
   findByDescription(description) {
     return http.get(`/products/description?description=${description}`);
   }
+
+  getInStock() {
+    return http.get("/products/inStock");
+  }
 }
 
 export default new ProductDataService();

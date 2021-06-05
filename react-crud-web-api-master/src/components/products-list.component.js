@@ -15,6 +15,10 @@ export default class ProductsList extends Component {
     this.searchDescription = this.searchDescription.bind(this);
     this.search = this.search.bind(this);
 
+    this.sname = true;
+    this.sdesc = false;
+    this.sstock = false;
+
     this.state = {
       products: [],
       currentProduct: null,
@@ -38,6 +42,22 @@ export default class ProductsList extends Component {
 
   onChangeSearchType(e) {
     const searchType = e.target.value;
+
+    if ( searchType === "name" ) {
+      this.sname = true;
+      this.sdesc = false;
+      this.sstock = false;
+    }
+    else if ( searchType === "description" ) {
+      this.sname = false;
+      this.sdesc = true;
+      this.sstock = false;
+    }
+    else {
+      this.sname = false;
+      this.sdesc = false;
+      this.sstock = true;
+    }
 
     this.setState({
       searchType: searchType
@@ -87,9 +107,25 @@ export default class ProductsList extends Component {
     if ( this.state.searchType === "name" ) {
       this.searchName();
     }
-    else {
+    else if ( this.state.searchType === "description" ) {
       this.searchDescription();
     }
+    else {
+      this.searchStock();
+    }
+  }
+
+  searchStock() {
+    ProductDataService.getInStock()
+      .then(response => {
+        this.setState({
+          products: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   searchName() {
@@ -141,6 +177,7 @@ export default class ProductsList extends Component {
               placeholder="Search Keywords"
               value={searchName}
               onChange={this.onChangeSearchName}
+              disabled={this.sstock}
             />
             <div className="input-group-append">
               <button
@@ -157,12 +194,16 @@ export default class ProductsList extends Component {
               <div>
                 <strong>Search by: </strong>
                 <span className="search-params">
-                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchName" name="searchType" value="name" checked/>
-                  <label htmlFor="searchName">Product Name</label>
+                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchName" name="searchType" value="name" checked={this.sname}/>
+                  <label htmlFor="searchName">Name</label>
                 </span>
                 <span className="search-params">
-                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchDesc" name="searchType" value="description"/>
-                  <label htmlFor="searchDesc">Product Description</label>
+                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchDesc" name="searchType" value="description" checked={this.sdesc}/>
+                  <label htmlFor="searchDesc">Description</label>
+                </span>
+                <span className="search-params">
+                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchStock" name="searchType" value="stock" checked={this.sstock}/>
+                  <label htmlFor="searchDesc">In Stock</label>
                 </span>
               </div>
           

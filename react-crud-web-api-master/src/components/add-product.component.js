@@ -7,6 +7,7 @@ export default class AddProduct extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeInStock = this.onChangeInStock.bind(this);
     this.saveProduct = this.saveProduct.bind(this);
     this.newProduct = this.newProduct.bind(this);
 
@@ -38,12 +39,19 @@ export default class AddProduct extends Component {
     });
   }
 
+  onChangeInStock(e) {
+    const inStock = e.target.value === "true";
+    this.setState({
+      inStock: inStock
+    });
+  }
+
   saveProduct() {
     var data = {
       name: this.state.name,
       description: this.state.description,
       price: this.state.price,
-      inStock: true
+      inStock: this.state.inStock
     };
 
     ProductDataService.create(data)
@@ -127,6 +135,28 @@ export default class AddProduct extends Component {
                 name="price"
               />
             </div>
+
+            <div className="form-group">
+                  <input
+                    type="radio"
+                    className="radio"
+                    id="inStock"
+                    name="stock"
+                    value="true"
+                    onChange={this.onChangeInStock}
+                  />
+                  <label htmlFor="inStock"> In Stock</label>
+                  <br></br>
+                  <input
+                    type="radio"
+                    className="radio"
+                    id="outOfStock"
+                    name="stock"
+                    value="false"
+                    onChange={this.onChangeInStock}
+                  />
+                  <label htmlFor="outOfStock"> Out of Stock</label>
+              </div>
 
             <button onClick={this.saveProduct} className="btn btn-success">
               Submit
