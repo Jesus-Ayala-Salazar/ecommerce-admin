@@ -3,10 +3,6 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import AddTutorial from "./components/add-tutorial.component";
-import Tutorial from "./components/tutorial.component";
-import TutorialsList from "./components/tutorials-list.component";
-
 import AddProduct from "./components/add-product.component";
 import Product from "./components/product.component";
 import ProductsList from "./components/products-list.component";
@@ -16,7 +12,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/c"} className="navbar-brand">
+          <Link to={"/"} className="navbar-brand">
             Early Bird Admin Portal
           </Link>
           <div className="navbar-nav mr-auto">

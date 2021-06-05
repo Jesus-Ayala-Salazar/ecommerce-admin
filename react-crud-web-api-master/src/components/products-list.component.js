@@ -158,9 +158,15 @@ export default class ProductsList extends Component {
               </div>
               <div>
                 <label>
+                  <strong>Price:</strong>
+                </label>{" "}
+                {`$${currentProduct.price.toFixed(2)}`}
+              </div>
+              <div>
+                <label>
                   <strong>Status:</strong>
                 </label>{" "}
-                {currentProduct.published ? "Published" : "Pending"}
+                {currentProduct.inStock ? "In Stock" : "Out of Stock"}
               </div>
 
               <Link

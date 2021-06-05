@@ -15,10 +15,8 @@ export default class AddProduct extends Component {
       name: "",
       description: "", 
       inStock: false,
-
       price: 0.00,
       submitted: false
-
     };
   }
 
@@ -44,7 +42,8 @@ export default class AddProduct extends Component {
     var data = {
       name: this.state.name,
       description: this.state.description,
-      price: this.state.price
+      price: this.state.price,
+      inStock: true
     };
 
     ProductDataService.create(data)
@@ -54,8 +53,8 @@ export default class AddProduct extends Component {
           name: response.data.name,
           description: response.data.description,
           inStock: true,
-
           price: response.data.price,
+
           submitted: true
         });
         console.log(response.data);
@@ -71,8 +70,8 @@ export default class AddProduct extends Component {
       name: "",
       description: "",
       inStock: false,
-
       price: 0.00,
+
       submitted: false
     });
   }

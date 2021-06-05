@@ -8,9 +8,9 @@ export default class Product extends Component {
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.getProduct = this.getProduct.bind(this);
-    this.updatePublished = this.updatePublished.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
+    this.onChangeInStock = this.onChangeInStock.bind(this);
 
     this.state = {
       currentProduct: {
@@ -63,36 +63,25 @@ export default class Product extends Component {
     }));
   }
 
+  onChangeInStock(e) {
+    const inStock = e.target.value === "true";
+    console.log(inStock);
+    console.log(typeof(inStock));
+    
+    this.setState(prevState => ({
+      currentProduct: {
+        ...prevState.currentProduct,
+        inStock: inStock
+      }
+    }));
+  }
+
   getProduct(id) {
     ProductDataService.get(id)
       .then(response => {
         this.setState({
           currentProduct: response.data
         });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  updatePublished(status) {
-    var data = {
-      id: this.state.currentProduct.id,
-      name: this.state.currentProduct.name,
-      description: this.state.currentProduct.description,
-      price: this.state.currentProduct.price,
-      inStock: this.state.currentProduct.inStock
-    };
-
-    ProductDataService.update(this.state.currentProduct.id, data)
-      .then(response => {
-        this.setState(prevState => ({
-          currentProduct: {
-            ...prevState.currentProduct,
-            published: status
-          }
-        }));
         console.log(response.data);
       })
       .catch(e => {
@@ -161,7 +150,27 @@ export default class Product extends Component {
                 <label>
                   <strong>Product Status:</strong>
                 </label>
-                {currentProduct.inStock ? "In Stock" : "Out of Stock"}
+                {currentProduct.inStock ? " In Stock" :  " Out of Stock"}
+              </div>
+
+              <div className="form-group">
+                  <input
+                    type="radio"
+                    id="inStock"
+                    checked={currentProduct.inStock}
+                    value="true"
+                    onChange={this.onChangeInStock}
+                  />
+                  <label htmlFor="inStock"> In Stock</label>
+                  <br></br>
+                  <input
+                    type="radio"
+                    id="outOfStock"
+                    checked={!currentProduct.inStock}
+                    value="false"
+                    onChange={this.onChangeInStock}
+                  />
+                  <label htmlFor="outOfStock"> Out of Stock</label>
               </div>
             </form>
 
@@ -184,7 +193,7 @@ export default class Product extends Component {
         ) : (
           <div>
             <br />
-            <p>Please click on a Product...</p>
+            <p>Please select a valid product...</p>
           </div>
         )}
       </div>
