@@ -6,17 +6,21 @@ export default class ProductsList extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchName = this.onChangeSearchName.bind(this);
+    this.onChangeSearchType = this.onChangeSearchType.bind(this);
     this.retrieveProducts = this.retrieveProducts.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveProduct = this.setActiveProduct.bind(this);
     this.removeAllProducts = this.removeAllProducts.bind(this);
     this.searchName = this.searchName.bind(this);
+    this.searchDescription = this.searchDescription.bind(this);
+    this.search = this.search.bind(this);
 
     this.state = {
       products: [],
       currentProduct: null,
       currentIndex: -1,
-      searchName: ""
+      searchName: "",
+      searchType: "name"
     };
   }
 
@@ -29,6 +33,14 @@ export default class ProductsList extends Component {
 
     this.setState({
       searchName: searchName
+    });
+  }
+
+  onChangeSearchType(e) {
+    const searchType = e.target.value;
+
+    this.setState({
+      searchType: searchType
     });
   }
 
@@ -71,6 +83,15 @@ export default class ProductsList extends Component {
       });
   }
 
+  search() {
+    if ( this.state.searchType === "name" ) {
+      this.searchName();
+    }
+    else {
+      this.searchDescription();
+    }
+  }
+
   searchName() {
     this.setState({
       currentProduct: null,
@@ -78,6 +99,24 @@ export default class ProductsList extends Component {
     });
 
     ProductDataService.findByName(this.state.searchName)
+      .then(response => {
+        this.setState({
+          products: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  searchDescription() {
+    this.setState({
+      currentProduct: null,
+      currentIndex: -1
+    });
+
+    ProductDataService.findByDescription(this.state.searchName)
       .then(response => {
         this.setState({
           products: response.data
@@ -99,7 +138,7 @@ export default class ProductsList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Search by name"
+              placeholder="Search Keywords"
               value={searchName}
               onChange={this.onChangeSearchName}
             />
@@ -107,12 +146,26 @@ export default class ProductsList extends Component {
               <button
                 className="btn btn-outline-secondary"
                 type="button"
-                onClick={this.searchName}
+                onClick={this.search}
               >
                 Search
               </button>
             </div>
           </div>
+
+          
+              <div>
+                <strong>Search by: </strong>
+                <span className="search-params">
+                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchName" name="searchType" value="name" checked/>
+                  <label htmlFor="searchName">Product Name</label>
+                </span>
+                <span className="search-params">
+                  <input className="radio" onChange={this.onChangeSearchType} type="radio" id="searchDesc" name="searchType" value="description"/>
+                  <label htmlFor="searchDesc">Product Description</label>
+                </span>
+              </div>
+          
         </div>
         <div className="col-md-6">
           <h4>Products List</h4>
@@ -158,9 +211,15 @@ export default class ProductsList extends Component {
               </div>
               <div>
                 <label>
+                  <strong>Price:</strong>
+                </label>{" "}
+                {`$${currentProduct.price.toFixed(2)}`}
+              </div>
+              <div>
+                <label>
                   <strong>Status:</strong>
                 </label>{" "}
-                {currentProduct.published ? "Published" : "Pending"}
+                {currentProduct.inStock ? "In Stock" : "Out of Stock"}
               </div>
 
               <Link

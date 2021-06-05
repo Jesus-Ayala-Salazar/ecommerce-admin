@@ -13,3 +13,22 @@
   max-width: 300px;
   margin: auto;
 }
+
+.bg-dark {
+  background-color: grey !important;
+}
+
+h4 {
+  max-width: 100%;
+  background-color: lightblue;
+  text-align: center;
+  padding: 2%;
+}
+
+.search-params {
+  margin-left: 8px;
+}
+
+.radio {
+  margin: 3px;
+}
